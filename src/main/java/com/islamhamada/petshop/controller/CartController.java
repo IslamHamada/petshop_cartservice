@@ -20,14 +20,14 @@ public class CartController {
 
     @PreAuthorize("hasAnyRole('Customer')")
     @PostMapping
-    private ResponseEntity<Long> addCartItem(@RequestBody AddCartItemRequest request){
+    public ResponseEntity<Long> addCartItem(@RequestBody AddCartItemRequest request){
         long rv = cartService.addCartItem(request);
         return new ResponseEntity<>(rv, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('Customer')")
     @GetMapping("/{user_id}")
-    private ResponseEntity<List<CartItem>> getCartByUser(@PathVariable long user_id){
+    public ResponseEntity<List<CartItem>> getCartByUser(@PathVariable long user_id){
         List<CartItem> user_cart = cartService.getUserCart(user_id);
         return new ResponseEntity<>(user_cart, HttpStatus.OK);
     }
