@@ -14,9 +14,9 @@ public class Cart {
     @GeneratedValue
     private long id;
 
-    private String user_id;
+    private long userId;
 
-    private long product_id;
+    private long productId;
 
     private int count;
 }
