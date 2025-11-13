@@ -1,6 +1,6 @@
 package com.islamhamada.petshop.controller;
 
-import com.islamhamada.petshop.entity.Cart;
+import com.islamhamada.petshop.entity.CartItem;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ public class CartController {
 
     @PreAuthorize("hasAnyRole('Customer')")
     @RequestMapping("/{user_id}")
-    @GetMapping
-    private ResponseEntity<List<Cart>> getCartByUser(@PathVariable String user_id){
+    private ResponseEntity<List<CartItem>> getCartByUser(@PathVariable String user_id){
+        List<CartItem> user_cart = cartService.getUserCart(user_id);
         List<Cart> user_cart = cartService.getUserCart(user_id);
         return new ResponseEntity<>(user_cart, HttpStatus.OK);
     }

@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Builder
-public class Cart {
+public class CartItem {
     @Id
     @GeneratedValue
     private long id;
