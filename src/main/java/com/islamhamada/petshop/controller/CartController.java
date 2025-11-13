@@ -26,7 +26,7 @@ public class CartController {
     }
 
     @PreAuthorize("hasAnyRole('Customer')")
-    @RequestMapping("/{user_id}")
+    @GetMapping("/{user_id}")
     private ResponseEntity<List<CartItem>> getCartByUser(@PathVariable long user_id){
         List<CartItem> user_cart = cartService.getUserCart(user_id);
         List<Cart> user_cart = cartService.getUserCart(user_id);
