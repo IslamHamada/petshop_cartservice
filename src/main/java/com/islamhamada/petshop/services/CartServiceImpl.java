@@ -16,27 +16,29 @@ public class CartServiceImpl implements CartService{
     CartRepository cartRepository;
 
     @Override
-    public String addCartItem(AddCartItemRequest request) {
+    public long addCartItem(AddCartItemRequest request) {
         Optional<CartItem> cart_item_optional = cartRepository.findByUserIdAndProductId(request.getUser_id(), request.getProduct_id());
         if(cart_item_optional.isPresent()){
             CartItem cart_item = cart_item_optional.get();
             cart_item.setCount(cart_item.getCount() + request.getCount());
             cartRepository.save(cart_item);
-            return "updated cart item with id: " + cart_item.getId();
+//            return "updated cart item with id: " + cart_item.getId();
+            return cart_item.getId();
         } else {
             CartItem new_cart_item = CartItem.builder()
-                    .user_id(request.getUser_id())
-                    .product_id(request.getProduct_id())
+                    .userId(request.getUser_id())
+                    .productId(request.getProduct_id())
                     .count(request.getCount())
                     .build();
 
             cartRepository.save(new_cart_item);
-            return "created cart item with id: " + new_cart_item.getId();
+//            return "created cart item with id: " + new_cart_item.getId();
+            return new_cart_item.getId();
         }
     }
 
     @Override
-    public List<CartItem> getUserCart(String user_id) {
+    public List<CartItem> getUserCart(long user_id) {
         return cartRepository.findByUserId(user_id);
     }
 }

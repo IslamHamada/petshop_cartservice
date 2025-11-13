@@ -6,6 +6,6 @@ import com.islamhamada.petshop.model.AddCartItemRequest;
 import java.util.List;
 
 public interface CartService {
-    String addCartItem(AddCartItemRequest request);
-    List<CartItem> getUserCart(String user_id);
+    long addCartItem(AddCartItemRequest request);
+    List<CartItem> getUserCart(long user_id);
 }
