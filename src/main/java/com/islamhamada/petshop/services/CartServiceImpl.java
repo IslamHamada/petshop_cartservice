@@ -17,7 +17,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public long addCartItem(AddCartItemRequest request) {
-        Optional<CartItem> cart_item_optional = cartRepository.findByUserIdAndProductId(request.getUser_id(), request.getProduct_id());
+        Optional<CartItem> cart_item_optional = cartRepository.findByUserIdAndProductId(request.getBackend_id(), request.getProduct_id());
         if(cart_item_optional.isPresent()){
             CartItem cart_item = cart_item_optional.get();
             cart_item.setCount(cart_item.getCount() + request.getCount());
@@ -26,7 +26,7 @@ public class CartServiceImpl implements CartService{
             return cart_item.getId();
         } else {
             CartItem new_cart_item = CartItem.builder()
-                    .userId(request.getUser_id())
+                    .userId(request.getBackend_id())
                     .productId(request.getProduct_id())
                     .count(request.getCount())
                     .build();
