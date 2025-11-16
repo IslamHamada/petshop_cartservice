@@ -2,6 +2,7 @@ package com.islamhamada.petshop.controller;
 
 import com.islamhamada.petshop.contracts.CartItemDTO;
 import com.islamhamada.petshop.model.AddCartItemRequest;
+import com.islamhamada.petshop.model.UpdateCartItemCountRequest;
 import com.islamhamada.petshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,12 @@ public class CartController {
     public ResponseEntity<Long> emptyCartOfUser(@PathVariable long user_id){
         long deletedRows = cartService.emptyCartOfUser(user_id);
         return new ResponseEntity<>(deletedRows, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('Customer')")
+    @PutMapping("/{cart_item_id}")
+    public ResponseEntity<Integer> updateCartItemCount(@PathVariable long cart_item_id, @RequestBody UpdateCartItemCountRequest request) {
+        int count = cartService.updateCartItemCount(cart_item_id, request.getCount());
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }

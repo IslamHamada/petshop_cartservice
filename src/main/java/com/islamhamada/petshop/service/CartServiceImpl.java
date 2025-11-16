@@ -57,4 +57,12 @@ public class CartServiceImpl implements CartService{
     public long emptyCartOfUser(long userId) {
         return cartItemRepository.deleteByUserId(userId);
     }
+
+    @Override
+    public int updateCartItemCount(long cart_item_id, int count) {
+        CartItem cartItem = cartItemRepository.findById(cart_item_id).get();
+        cartItem.setCount(count);
+        cartItem = cartItemRepository.save(cartItem);
+        return cartItemRepository.save(cartItem).getCount();
+    }
 }

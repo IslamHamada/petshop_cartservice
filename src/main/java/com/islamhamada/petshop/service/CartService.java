@@ -9,4 +9,5 @@ public interface CartService {
     long addCartItem(AddCartItemRequest request);
     List<CartItemDTO> getUserCart(long user_id);
     long emptyCartOfUser(long userId);
+    int updateCartItemCount(long cart_item_id, int count);
 }
