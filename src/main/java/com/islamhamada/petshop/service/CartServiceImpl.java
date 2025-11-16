@@ -1,8 +1,10 @@
-package com.islamhamada.petshop.services;
+package com.islamhamada.petshop.service;
 
+import com.islamhamada.petshop.contracts.CartItemDTO;
 import com.islamhamada.petshop.entity.CartItem;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,6 @@ public class CartServiceImpl implements CartService{
             CartItem cart_item = cart_item_optional.get();
             cart_item.setCount(cart_item.getCount() + request.getCount());
             cartRepository.save(cart_item);
-//            return "updated cart item with id: " + cart_item.getId();
             return cart_item.getId();
         } else {
             CartItem new_cart_item = CartItem.builder()
@@ -32,13 +33,28 @@ public class CartServiceImpl implements CartService{
                     .build();
 
             cartRepository.save(new_cart_item);
-//            return "created cart item with id: " + new_cart_item.getId();
             return new_cart_item.getId();
         }
     }
 
     @Override
-    public List<CartItem> getUserCart(long user_id) {
-        return cartRepository.findByUserId(user_id);
+    public List<CartItemDTO> getUserCart(long user_id) {
+        List<CartItem> cartItems =  cartRepository.findByUserId(user_id);
+        List<CartItemDTO> cartItemsDTO = cartItems.stream()
+                .map(cartItem ->
+                    CartItemDTO.builder()
+                            .id(cartItem.getId())
+                            .userId(cartItem.getUserId())
+                            .productId(cartItem.getProductId())
+                            .count(cartItem.getCount())
+                            .build()
+                ).toList();
+        return cartItemsDTO;
+    }
+
+    @Override
+    @Transactional
+    public long emptyCartOfUser(long userId) {
+        return cartRepository.deleteByUserId(userId);
     }
 }
