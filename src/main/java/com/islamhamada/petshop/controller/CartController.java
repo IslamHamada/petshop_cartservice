@@ -1,8 +1,8 @@
 package com.islamhamada.petshop.controller;
 
-import com.islamhamada.petshop.entity.CartItem;
+import com.islamhamada.petshop.contracts.CartItemDTO;
 import com.islamhamada.petshop.model.AddCartItemRequest;
-import com.islamhamada.petshop.services.CartService;
+import com.islamhamada.petshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +27,15 @@ public class CartController {
 
     @PreAuthorize("hasAnyRole('Customer')")
     @GetMapping("/{user_id}")
-    public ResponseEntity<List<CartItem>> getCartByUser(@PathVariable long user_id){
-        List<CartItem> user_cart = cartService.getUserCart(user_id);
+    public ResponseEntity<List<CartItemDTO>> getCartByUser(@PathVariable long user_id){
+        List<CartItemDTO> user_cart = cartService.getUserCart(user_id);
         return new ResponseEntity<>(user_cart, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('Customer')")
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity<Long> emptyCartOfUser(@PathVariable long user_id){
+        long deletedRows = cartService.emptyCartOfUser(user_id);
+        return new ResponseEntity<>(deletedRows, HttpStatus.OK);
     }
 }
