@@ -3,7 +3,7 @@ package com.islamhamada.petshop.service;
 import com.islamhamada.petshop.contracts.CartItemDTO;
 import com.islamhamada.petshop.entity.CartItem;
 import com.islamhamada.petshop.model.AddCartItemRequest;
-import com.islamhamada.petshop.repository.CartRepository;
+import com.islamhamada.petshop.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService{
 
     @Autowired
-    CartRepository cartRepository;
+    CartItemRepository cartItemRepository;
 
     @Override
     public long addCartItem(AddCartItemRequest request) {
-        Optional<CartItem> cart_item_optional = cartRepository.findByUserIdAndProductId(request.getBackend_id(), request.getProduct_id());
+        Optional<CartItem> cart_item_optional = cartItemRepository.findByUserIdAndProductId(request.getBackend_id(), request.getProduct_id());
         if(cart_item_optional.isPresent()){
             CartItem cart_item = cart_item_optional.get();
             cart_item.setCount(cart_item.getCount() + request.getCount());
-            cartRepository.save(cart_item);
+            cartItemRepository.save(cart_item);
             return cart_item.getId();
         } else {
             CartItem new_cart_item = CartItem.builder()
@@ -32,14 +32,14 @@ public class CartServiceImpl implements CartService{
                     .count(request.getCount())
                     .build();
 
-            cartRepository.save(new_cart_item);
+            cartItemRepository.save(new_cart_item);
             return new_cart_item.getId();
         }
     }
 
     @Override
     public List<CartItemDTO> getUserCart(long user_id) {
-        List<CartItem> cartItems =  cartRepository.findByUserId(user_id);
+        List<CartItem> cartItems =  cartItemRepository.findByUserId(user_id);
         List<CartItemDTO> cartItemsDTO = cartItems.stream()
                 .map(cartItem ->
                     CartItemDTO.builder()
@@ -55,6 +55,6 @@ public class CartServiceImpl implements CartService{
     @Override
     @Transactional
     public long emptyCartOfUser(long userId) {
-        return cartRepository.deleteByUserId(userId);
+        return cartItemRepository.deleteByUserId(userId);
     }
 }
