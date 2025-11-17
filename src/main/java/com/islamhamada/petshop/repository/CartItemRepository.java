@@ -15,6 +15,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     long deleteByUserId(long user_id);
     void deleteById(long cart_item_id);
 
-    @Query("select sum(t.count) from CartItem t where t.userId = :user_id")
+    @Query("select ifnull(sum(t.count), 0) from CartItem t where t.userId = :user_id")
     int sumCountByUserId(long user_id);
 }
