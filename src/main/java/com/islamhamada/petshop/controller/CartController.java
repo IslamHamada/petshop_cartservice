@@ -3,6 +3,7 @@ package com.islamhamada.petshop.controller;
 import com.islamhamada.petshop.contracts.CartItemDTO;
 import com.islamhamada.petshop.contracts.ElaborateCartItemDTO;
 import com.islamhamada.petshop.model.AddCartItemRequest;
+import com.islamhamada.petshop.model.AddSessionCartRequest;
 import com.islamhamada.petshop.model.UpdateCartItemCountRequest;
 import com.islamhamada.petshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,12 @@ public class CartController {
     public ResponseEntity<Integer> getCartItemCount(@PathVariable long user_id) {
         int count = cartService.getCartItemCount(user_id);
         return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('Customer')")
+    @PostMapping("/login_to_checkout/{user_id}")
+    public ResponseEntity addSessionCart(@PathVariable int user_id, @RequestBody AddSessionCartRequest request){
+        cartService.addSessionCart(user_id, request);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

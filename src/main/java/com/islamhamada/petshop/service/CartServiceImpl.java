@@ -6,6 +6,7 @@ import com.islamhamada.petshop.contracts.ProductDTO;
 import com.islamhamada.petshop.entity.CartItem;
 import com.islamhamada.petshop.external.service.ProductService;
 import com.islamhamada.petshop.model.AddCartItemRequest;
+import com.islamhamada.petshop.model.AddSessionCartRequest;
 import com.islamhamada.petshop.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +84,16 @@ public class CartServiceImpl implements CartService{
     @Override
     public int getCartItemCount(long user_id) {
         return cartItemRepository.sumCountByUserId(user_id);
+    }
+
+    @Override
+    public void addSessionCart(long user_id, AddSessionCartRequest request) {
+        request.getCart_items().forEach(cart_item -> {
+            addCartItem(AddCartItemRequest.builder()
+                    .backend_id(user_id)
+                    .product_id(cart_item.getProduct_id())
+                    .count(cart_item.getCount())
+                    .build());
+        });
     }
 }
