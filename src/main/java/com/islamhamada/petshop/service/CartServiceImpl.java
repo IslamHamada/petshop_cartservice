@@ -71,4 +71,9 @@ public class CartServiceImpl implements CartService{
     public void deleteCartItem(long cart_item_id) {
         cartItemRepository.deleteById(cart_item_id);
     }
+
+    @Override
+    public int getCartItemCount(long user_id) {
+        return cartItemRepository.sumCountByUserId(user_id);
+    }
 }

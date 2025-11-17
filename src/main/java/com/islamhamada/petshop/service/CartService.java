@@ -11,4 +11,5 @@ public interface CartService {
     long emptyCartOfUser(long userId);
     int updateCartItemCount(long cart_item_id, int count);
     void deleteCartItem(long cart_item_id);
+    int getCartItemCount(long user_id);
 }

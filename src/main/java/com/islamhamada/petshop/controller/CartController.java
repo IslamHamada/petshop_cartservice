@@ -53,4 +53,11 @@ public class CartController {
         cartService.deleteCartItem(cart_item_id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('Customer')")
+    @GetMapping("/item_count/{user_id}")
+    public ResponseEntity<Integer> getCartItemCount(@PathVariable long user_id) {
+        int count = cartService.getCartItemCount(user_id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 }
