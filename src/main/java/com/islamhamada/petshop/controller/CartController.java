@@ -1,6 +1,7 @@
 package com.islamhamada.petshop.controller;
 
 import com.islamhamada.petshop.contracts.CartItemDTO;
+import com.islamhamada.petshop.contracts.ElaborateCartItemDTO;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.model.UpdateCartItemCountRequest;
 import com.islamhamada.petshop.service.CartService;
@@ -28,8 +29,8 @@ public class CartController {
 
     @PreAuthorize("hasAnyRole('Customer')")
     @GetMapping("/{user_id}")
-    public ResponseEntity<List<CartItemDTO>> getCartByUser(@PathVariable long user_id){
-        List<CartItemDTO> user_cart = cartService.getUserCart(user_id);
+    public ResponseEntity<List<ElaborateCartItemDTO>> getCartByUser(@PathVariable long user_id){
+        List<ElaborateCartItemDTO> user_cart = cartService.getUserCart(user_id);
         return new ResponseEntity<>(user_cart, HttpStatus.OK);
     }
 

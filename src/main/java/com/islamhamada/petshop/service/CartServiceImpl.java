@@ -1,7 +1,10 @@
 package com.islamhamada.petshop.service;
 
 import com.islamhamada.petshop.contracts.CartItemDTO;
+import com.islamhamada.petshop.contracts.ElaborateCartItemDTO;
+import com.islamhamada.petshop.contracts.ProductDTO;
 import com.islamhamada.petshop.entity.CartItem;
+import com.islamhamada.petshop.external.service.ProductService;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
@@ -16,6 +19,9 @@ public class CartServiceImpl implements CartService{
 
     @Autowired
     CartItemRepository cartItemRepository;
+
+    @Autowired
+    ProductService productService;
 
     @Override
     public long addCartItem(AddCartItemRequest request) {
@@ -38,18 +44,20 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public List<CartItemDTO> getUserCart(long user_id) {
+    public List<ElaborateCartItemDTO> getUserCart(long user_id) {
         List<CartItem> cartItems =  cartItemRepository.findByUserId(user_id);
-        List<CartItemDTO> cartItemsDTO = cartItems.stream()
-                .map(cartItem ->
-                    CartItemDTO.builder()
-                            .id(cartItem.getId())
-                            .userId(cartItem.getUserId())
-                            .productId(cartItem.getProductId())
-                            .count(cartItem.getCount())
-                            .build()
-                ).toList();
-        return cartItemsDTO;
+        List<ElaborateCartItemDTO> elaborateCartItems = cartItems.stream()
+                .map(cartItem -> {
+                    ProductDTO product = productService.getProductById(cartItem.getProductId()).getBody();
+                    return ElaborateCartItemDTO.builder()
+                            .product_name(product.getName())
+                            .product_price(product.getPrice())
+                            .product_id(product.getId())
+                            .cart_item_id(cartItem.getId())
+                            .cart_item_count(cartItem.getCount())
+                            .build();
+                        }).toList();
+        return elaborateCartItems;
     }
 
     @Override
