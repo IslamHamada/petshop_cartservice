@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-service-app
+spec:
+  selector:
+    matchLabels:
+      app: cart-service-app
+  template:
+    metadata:
+      labels:
+        app: cart-service-app
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-secret
+      containers:
+        - name: cart-service-app
+          image: islamhamada/petshop:CartService
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8086
+          env:
+            - name: EUREKA_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: eureka_server_url
+                  name: eureka-cm
+            - name: CONFIG_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: config_server_url
+                  name: config-cm
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql_url
+                  name: mysql-cm
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-service-svc
+spec:
+  selector:
+    app: cart-service-app
+  ports:
+    - port: 80
+      targetPort: 8086
