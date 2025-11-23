@@ -11,13 +11,13 @@ node {
     stage('Build Contracts') {
         sh("${mvnCMD} clean install")
     }
-    stage('Checkout Product-Service'){
+    stage('Checkout Cart-Service'){
         checkout([$class: 'GitSCM',
                   branches: [[name: '*/jenkins_gcp']],
                   userRemoteConfigs: [[credentialsId: 'git',
                                        url: 'https://github.com/IslamHamada/petshop_cartservice.git']]])
     }
-    stage('Build and Push Product-Service') {
+    stage('Build and Push Cart-Service') {
         withCredentials([file(credentialsId: 'gcp', variable: 'GC_KEY')]) {
             sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
             sh('gcloud auth configure-docker us-west4-docker.pkg.dev')
