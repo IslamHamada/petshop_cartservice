@@ -136,8 +136,12 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
+                    <from>
+                        <image>eclipse-temurin:17-jdk</image>
+                    </from>
                     <to>
-                        <image>${dockerhub-repo}:${project.artifactId}</image>
+                        <image>${REPO_URL}/cart-service</image>
+                        <tags>${project.version}</tags>
                     </to>
                 </configuration>
             </plugin>
