@@ -51,9 +51,9 @@ public class CartServiceImpl implements CartService{
                 .map(cartItem -> {
                     ProductDTO product = productService.getProductById(cartItem.getProductId()).getBody();
                     return ElaborateCartItemDTO.builder()
+                            .product_id(product.getId())
                             .product_name(product.getName())
                             .product_price(product.getPrice())
-                            .product_id(product.getId())
                             .product_image(product.getImage())
                             .cart_item_id(cartItem.getId())
                             .cart_item_count(cartItem.getCount())
