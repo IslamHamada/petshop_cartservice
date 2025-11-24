@@ -130,7 +130,7 @@
                     </from>
                     <to>
                         <image>${REPO_URL}/cart-service</image>
-                        <tags>${project.version}</tags>
+                        <tags>${VERSION}</tags>
                     </to>
                 </configuration>
             </plugin>
