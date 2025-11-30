@@ -1,6 +1,6 @@
 package com.islamhamada.petshop.external.service;
 
-import com.islamhamada.petshop.contracts.ProductDTO;
+import com.islamhamada.petshop.contracts.dto.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
