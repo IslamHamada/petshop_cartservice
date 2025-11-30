@@ -2,7 +2,6 @@ package com.islamhamada.petshop.service;
 
 import com.islamhamada.petshop.contracts.dto.ElaborateCartItemDTO;
 import com.islamhamada.petshop.contracts.dto.ProductDTO;
-import com.islamhamada.petshop.contracts.ProductDTO;
 import com.islamhamada.petshop.entity.CartItem;
 import com.islamhamada.petshop.external.service.ProductService;
 import com.islamhamada.petshop.model.AddCartItemRequest;
