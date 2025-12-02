@@ -3,12 +3,14 @@ package com.islamhamada.petshop.service;
 import com.islamhamada.petshop.contracts.dto.ElaborateCartItemDTO;
 import com.islamhamada.petshop.contracts.dto.ProductDTO;
 import com.islamhamada.petshop.entity.CartItem;
+import com.islamhamada.petshop.exception.CartServiceException;
 import com.islamhamada.petshop.external.service.ProductService;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.model.AddSessionCartRequest;
 import com.islamhamada.petshop.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,7 +71,9 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public int updateCartItemCount(long cart_item_id, int count) {
-        CartItem cartItem = cartItemRepository.findById(cart_item_id).get();
+        CartItem cartItem = cartItemRepository.findById(cart_item_id).orElseThrow(() ->
+                new CartServiceException("No cart item with id: " + cart_item_id, "NOT_FOUND", HttpStatus.NOT_FOUND)
+        );
         cartItem.setCount(count);
         cartItem = cartItemRepository.save(cartItem);
         return cartItemRepository.save(cartItem).getCount();
