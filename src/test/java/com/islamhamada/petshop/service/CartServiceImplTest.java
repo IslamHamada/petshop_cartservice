@@ -8,7 +8,6 @@ import com.islamhamada.petshop.external.service.ProductService;
 import com.islamhamada.petshop.model.AddCartItemRequest;
 import com.islamhamada.petshop.model.AddSessionCartRequest;
 import com.islamhamada.petshop.repository.CartItemRepository;
-import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
