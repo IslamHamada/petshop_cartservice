@@ -76,7 +76,7 @@ public class CartServiceImpl implements CartService{
         );
         cartItem.setCount(count);
         cartItem = cartItemRepository.save(cartItem);
-        return cartItemRepository.save(cartItem).getCount();
+        return cartItem.getCount();
     }
 
     @Override
