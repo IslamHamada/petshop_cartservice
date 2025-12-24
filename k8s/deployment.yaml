@@ -39,6 +39,11 @@ spec:
                 configMapKeyRef:
                   key: mysql_url
                   name: mysql-cm
+            - name: ZIPKIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: zipkin_url
+                  name: zipkin-cm
 
 ---
 apiVersion: v1
