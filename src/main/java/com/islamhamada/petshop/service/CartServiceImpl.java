@@ -28,21 +28,19 @@ public class CartServiceImpl implements CartService{
     @Override
     public long addCartItem(AddCartItemRequest request) {
         Optional<CartItem> cart_item_optional = cartItemRepository.findByUserIdAndProductId(request.getBackend_id(), request.getProduct_id());
+        CartItem cart_item;
         if(cart_item_optional.isPresent()){
-            CartItem cart_item = cart_item_optional.get();
+            cart_item = cart_item_optional.get();
             cart_item.setCount(cart_item.getCount() + request.getCount());
-            cartItemRepository.save(cart_item);
-            return cart_item.getId();
         } else {
-            CartItem new_cart_item = CartItem.builder()
+            cart_item = CartItem.builder()
                     .userId(request.getBackend_id())
                     .productId(request.getProduct_id())
                     .count(request.getCount())
                     .build();
-
-            cartItemRepository.save(new_cart_item);
-            return new_cart_item.getId();
         }
+        cartItemRepository.save(cart_item);
+        return cart_item.getId();
     }
 
     @Override
