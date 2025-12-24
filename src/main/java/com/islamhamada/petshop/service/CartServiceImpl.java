@@ -53,6 +53,7 @@ public class CartServiceImpl implements CartService{
         List<CartItem> cartItems =  cartItemRepository.findByUserId(user_id);
         List<ElaborateCartItemDTO> elaborateCartItems = cartItems.stream()
                 .map(cartItem -> {
+                    log.info("Calling product service to fetch product info with id: " + cartItem.getProductId());
                     ProductDTO product = productService.getProductById(cartItem.getProductId()).getBody();
                     return ElaborateCartItemDTO.builder()
                             .product_id(product.getId())
