@@ -5,6 +5,7 @@ import com.islamhamada.petshop.contracts.exception.FeignClientException;
 import com.islamhamada.petshop.contracts.model.RestExceptionResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
@@ -18,10 +19,10 @@ public class FeignClientExceptionDecoder implements ErrorDecoder {
             return new FeignClientException(
                     restExceptionResponse.getError_message(),
                     restExceptionResponse.getError_code(),
-                    response.status());
+                    HttpStatus.resolve(response.status()));
         } catch (IOException e) {
             throw new FeignClientException("Internal Server Error",
-                    "INTERNAL_SERVER_ERROR", 500);
+                    "INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
