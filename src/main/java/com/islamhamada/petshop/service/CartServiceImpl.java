@@ -81,7 +81,7 @@ public class CartServiceImpl implements CartService{
     public int updateCartItemCount(long cart_item_id, int count) {
         log.info("Updating cart item count of id: " + cart_item_id + ", to count: " + count);
         CartItem cartItem = cartItemRepository.findById(cart_item_id).orElseThrow(() ->
-                new CartServiceException("No cart item with id: " + cart_item_id, "NOT_FOUND", HttpStatus.NOT_FOUND)
+                new CartServiceException("No cart item with id: " + cart_item_id, "ITEM_NOT_FOUND", HttpStatus.NOT_FOUND)
         );
         cartItem.setCount(count);
         cartItem = cartItemRepository.save(cartItem);
