@@ -1,6 +1,8 @@
 package com.islamhamada.petshop.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +21,12 @@ public class AddSessionCartRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SessionCartItem {
-        @Positive
+        @PositiveOrZero
         long product_id;
         @Positive
         int count;
     }
+    @Valid
     @Size(min = 1)
     List<SessionCartItem> cart_items;
 }
