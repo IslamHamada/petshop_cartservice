@@ -1,0 +1,30 @@
+package com.islamhamada.petshop;
+
+import org.springframework.cloud.client.DefaultServiceInstance;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import reactor.core.publisher.Flux;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestServiceInstanceListSupplier implements ServiceInstanceListSupplier {
+    @Override
+    public String getServiceId() {
+        return "ProductService";
+    }
+
+    @Override
+    public Flux<List<ServiceInstance>> get() {
+        List<ServiceInstance> list
+                = new ArrayList<>();
+        list.add(new DefaultServiceInstance(
+                "PRODUCT-SERVICE",
+                "ProductService",
+                "localhost",
+                8080,
+                false
+        ));
+        return Flux.just(list);
+    }
+}
