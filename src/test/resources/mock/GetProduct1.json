@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "name": "product1",
+  "quantity": 10,
+  "price": 5,
+  "description": "description1",
+  "image": "image1",
+  "for_animal": "animal1",
+  "utility": "utility1"
+}
