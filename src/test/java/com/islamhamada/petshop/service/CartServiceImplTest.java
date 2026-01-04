@@ -244,7 +244,7 @@ class CartServiceImplTest {
                     .save(any());
 
             assertEquals("No cart item with id: " + cartItem.getId(), exception.getMessage());
-            assertEquals("CART_NOT_FOUND", exception.getError_code());
+            assertEquals("CART_ITEM_NOT_FOUND", exception.getError_code());
             assertEquals(HttpStatus.NOT_FOUND, exception.getHttpStatus());
         }
     }
