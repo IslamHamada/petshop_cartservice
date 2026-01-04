@@ -20,7 +20,7 @@ public class TestServiceInstanceListSupplier implements ServiceInstanceListSuppl
                 = new ArrayList<>();
         list.add(new DefaultServiceInstance(
                 "PRODUCT-SERVICE",
-                "ProductService",
+                "product-service-svc",
                 "localhost",
                 8080,
                 false
