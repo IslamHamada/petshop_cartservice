@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
         name = "product-service-svc",
-        path = "/product"
+        url = "http://product-service-svc"
 )
 public interface ProductService {
     @GetMapping("/{id}")
