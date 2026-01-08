@@ -1,5 +1,5 @@
 node {
-    def repourl = "${REGISTRY_URL}/${PROJECT_ID}/${ARTIFACT_REGISTRY}"
+    def repourl = "islamhamada/petshop"
     def mvnHome = tool name: 'maven', type: 'maven'
     def mvnCMD = "${mvnHome}/bin/mvn"
     def version = sh(script: "date +%s", returnStdout: true).trim()
@@ -19,10 +19,8 @@ node {
                                        url: 'https://github.com/IslamHamada/petshop_cartservice.git']]])
     }
     stage('Build and Push Cart-Service') {
-        withCredentials([file(credentialsId: 'gcp', variable: 'GC_KEY')]) {
-            sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-            sh('gcloud auth configure-docker us-west4-docker.pkg.dev')
-            sh("${mvnCMD} clean install jib:build -DREPO_URL=${repourl} -DVERSION=${version}")
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh("${mvnCMD} clean install jib:build -DREPO_URL=${repourl} -DVERSION=${version} -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS")
         }
     }
     stage('Deploy') {
