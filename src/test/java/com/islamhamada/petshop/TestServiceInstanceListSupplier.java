@@ -22,7 +22,7 @@ public class TestServiceInstanceListSupplier implements ServiceInstanceListSuppl
                 "PRODUCT-SERVICE",
                 "product-service-svc",
                 "localhost",
-                8080,
+                9090,
                 false
         ));
         return Flux.just(list);

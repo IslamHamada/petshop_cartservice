@@ -63,7 +63,7 @@ class CartControllerTest {
             WireMockExtension.newInstance()
                     .options(WireMockConfiguration
                             .wireMockConfig()
-                            .port(8080))
+                            .port(9090))
                     .build();
 
     private ObjectMapper objectMapper
