@@ -11,7 +11,7 @@ import java.util.List;
 public class TestServiceInstanceListSupplier implements ServiceInstanceListSupplier {
     @Override
     public String getServiceId() {
-        return "ProductService";
+        return "product-service-svc";
     }
 
     @Override
