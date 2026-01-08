@@ -15,7 +15,7 @@ spec:
         - name: dockerhub-secret
       containers:
         - name: cart-service-app
-          image: IMAGE_URL/cart-service:TAG
+          image: IMAGE_URL:TAG
           imagePullPolicy: Always
           resources:
             limits:
