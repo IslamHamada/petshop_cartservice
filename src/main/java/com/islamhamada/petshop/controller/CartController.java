@@ -45,7 +45,7 @@ public class CartController {
     }
 
     @PreAuthorize("hasAnyRole('Customer')")
-    @PutMapping("/item_count/{cart_item_id}")
+    @PutMapping("/cart_item/{cart_item_id}")
     public ResponseEntity<Integer> updateCartItemCount(@PositiveOrZero @PathVariable long cart_item_id, @Valid @RequestBody UpdateCartItemCountRequest request) {
         int count = cartService.updateCartItemCount(cart_item_id, request.getCount());
         return new ResponseEntity<>(count, HttpStatus.OK);
