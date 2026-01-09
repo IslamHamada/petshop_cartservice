@@ -18,9 +18,20 @@ node {
                   userRemoteConfigs: [[credentialsId: 'git',
                                        url: 'https://github.com/IslamHamada/petshop_cartservice.git']]])
     }
-    stage('Build and Push Cart-Service') {
+    stage('Build') {
+        sh("${mvnCMD} clean install")
+    }
+    stage('SonarQube analysis'){
+        withSonarQubeEnv('Sonar') {
+            sh("${mvnCMD} org.sonarsource.scanner.maven:sonar-maven-plugin:sonar")
+        }
+    }
+    stage('Quality gate') {
+        waitForQualityGate abortPipeline: true
+    }
+    stage('Push Image') {
         withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-            sh("${mvnCMD} clean install jib:build -DREPO_URL=${repourl} -DVERSION=${version} -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS")
+            sh("${mvnCMD} jib:build -DREPO_URL=${repourl} -DVERSION=${version} -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS")
         }
     }
     stage('Deploy') {
