@@ -20,3 +20,9 @@ spring:
 
 server:
   port: 8086
+
+springdoc:
+  swagger-ui:
+    path: /cart/swagger-ui.html
+  api-docs:
+    path: /cart/api-docs
