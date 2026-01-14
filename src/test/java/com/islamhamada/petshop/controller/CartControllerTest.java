@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
@@ -30,6 +31,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -46,12 +49,11 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest({"server.port=0",
-        "product-service-svc.url=http://localhost:9090"})
+@SpringBootTest({"server.port=0"})
 @AutoConfigureMockMvc
 @EnableConfigurationProperties
 @ContextConfiguration(classes = {CartServiceConfig.class})
-class CartControllerTest {
+public class CartControllerTest {
 
     @Autowired
     CartItemRepository cartItemRepository;
@@ -59,13 +61,19 @@ class CartControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @RegisterExtension
-    static WireMockExtension wireMockServer =
-            WireMockExtension.newInstance()
-                    .options(WireMockConfiguration
-                            .wireMockConfig()
-                            .port(9090))
-                    .build();
+    public static WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration
+        .wireMockConfig()
+        .dynamicPort());
+
+    @DynamicPropertySource
+    private static void configureProperties(DynamicPropertyRegistry registry) {
+        String wireMockUrl = "http://localhost:" + wireMockServer.port();
+        registry.add("product-service-svc.url", () -> wireMockUrl);
+    }
+
+    public CartControllerTest() {
+        wireMockServer.start();
+    }
 
     private ObjectMapper objectMapper
             = new ObjectMapper()
