@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.swing.text.html.Option;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -172,7 +173,7 @@ class CartServiceImplTest {
                     .id(1)
                     .name("name1")
                     .description("description1")
-                    .price(1)
+                    .price(BigDecimal.valueOf(1))
                     .image("image1")
                     .quantity(1)
                     .utility("utility1")
@@ -185,7 +186,7 @@ class CartServiceImplTest {
                     .id(2)
                     .name("name2")
                     .description("description2")
-                    .price(2)
+                    .price(BigDecimal.valueOf(2))
                     .image("image2")
                     .quantity(2)
                     .utility("utility2")
