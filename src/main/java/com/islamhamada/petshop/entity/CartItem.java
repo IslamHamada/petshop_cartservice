@@ -1,14 +1,12 @@
 package com.islamhamada.petshop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "cart_item")
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,8 +16,10 @@ public class CartItem {
     @GeneratedValue
     private long id;
 
+    @Column(name = "user_id")
     private long userId;
 
+    @Column(name = "product_id")
     private long productId;
 
     private int count;
